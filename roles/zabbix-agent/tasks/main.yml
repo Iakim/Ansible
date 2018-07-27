@@ -20,7 +20,7 @@
     lineinfile:
       path: /etc/zabbix/zabbix_agentd.conf
       regexp: '^Hostname=Zabbix server'
-      line: 'Hostname={{ansible_hostname}}'
+      line: 'Hostname={{ zabbix_host }}'
 
   - name: Starting the Zabbix Agent
     service: name=zabbix-agent state=started enabled=yes
