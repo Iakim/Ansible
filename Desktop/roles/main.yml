@@ -1,0 +1,10 @@
+---
+- hosts: luciana
+  become: true
+  become_user: root
+  roles:
+    - firewall
+    - apache
+    - mysql
+    - zabbix-server
+    - zabbix-agent

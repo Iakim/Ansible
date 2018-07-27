@@ -1,0 +1,6 @@
+zabbix_version: 3.4.11
+zabbix_user: zabbix
+zabbix_pass: z@bb1x
+zabbix_database: zabbix
+zabbix_cache_size: 256M
+zabbix_timezone: America/Sao_Paulo
