@@ -4,3 +4,5 @@ zabbix_pass: z@bb1x
 zabbix_database: zabbix
 zabbix_cache_size: 256M
 zabbix_timezone: America/Sao_Paulo
+zabbix_server: zabbix.iakim.ru
+zabbix_host: "{{ ansible_hostname }}"
