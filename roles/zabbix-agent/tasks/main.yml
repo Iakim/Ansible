@@ -1,5 +1,4 @@
 ---
-
   - name: Installing Zabbix Agent
     yum: state=latest name={{ item }}
     with_items:
