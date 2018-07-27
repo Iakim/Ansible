@@ -1,5 +1,4 @@
 ---
-
   - name: Adding Zabbix repository
     yum_repository:
       name: "zabbix\x86_64"
