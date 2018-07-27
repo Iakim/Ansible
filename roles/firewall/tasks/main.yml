@@ -1,8 +1,10 @@
 ---
-- name: "Para o Firewall"
+- name: "Stop Firewall"
   service: name=firewalld state=stopped
-- name: "Desabilita Firewall"
+
+- name: "Disable Firewall"
   service: name=firewalld enabled=no
-- name: "Desabilita SELinux"
+
+- name: "Disable SELinux"
   selinux:
     state: disabled
