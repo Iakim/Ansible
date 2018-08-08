@@ -3,6 +3,7 @@
   become: true
   become_user: root
   roles:
+    - initpack
     - firewall
     - apache
     - mysql
