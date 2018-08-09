@@ -1,5 +1,5 @@
 ---
-  - name: INstall the Apache
+  - name: Install the Apache
     yum: name=httpd state=latest
 
   - name: Start the Apache
