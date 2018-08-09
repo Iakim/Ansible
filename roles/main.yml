@@ -3,10 +3,8 @@
   become: true
   become_user: root
   roles:
-<<<<<<< HEAD
+
   # Pre
-=======
->>>>>>> 4435c99f194c8a857b4f12da250ba49d76a7e825
     - initpack
     - firewall
     - epel
