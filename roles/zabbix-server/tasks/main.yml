@@ -1,0 +1,48 @@
+---
+  - name: Adding Zabbix repository
+    yum_repository:
+      name: "zabbix\x86_64"
+      description: Zabbix Official Repository - x86_64
+      baseurl: http://repo.zabbix.com/zabbix/3.4/rhel/7/x86_64/
+
+  - name: Installing Zabbix Server
+    yum: state=latest name={{ item }}
+    with_items:
+    - php
+    - php-cli
+    - php-common
+    - php-pear
+    - php-gd
+    - php-mysql
+    - php-xml
+    - zabbix-server-mysql
+    - zabbix-web-mysql
+    - zabbix-java-gateway
+    - zabbix-get
+
+  - lineinfile:
+      path: /etc/zabbix/zabbix_server.conf
+      regexp: '^# DBPassword='
+      line: 'DBPassword={{ zabbix_pass  }}'
+
+  - lineinfile:
+      path: /etc/zabbix/zabbix_server.conf
+      regexp: '^# CacheSize=8M'
+      line: 'CacheSize={{ zabbix_cache_size  }}'
+
+  - lineinfile:
+      path: /etc/httpd/conf.d/zabbix.conf
+      regexp: '^        # php_value date.timezone Europe/Riga'
+      line: '        php_value date.timezone {{ zabbix_timezone  }}'
+
+  - name: Starting Zabbix Server
+    service: name=zabbix-server state=started enabled=yes
+
+  - name: Creating the Database
+    shell: echo "create database {{ zabbix_databse  }} character set utf8;" | mysql -u root
+
+  - name: Granting Access to the Database
+    shell: echo "grant all privileges on {{ zabbix_database  }}.* to '{{ zabbix_user  }}'@'localhost' identified by '{{ zabbix_pass  }}';" | mysql -u root
+
+  - name: Creating Tables in the Database
+    shell: zcat /usr/share/doc/zabbix-server-mysql-{{ zabbix_version }}/create.sql.gz | mysql -u{{ zabbix_user }} -p{{ zabbix_pass }} {{ zabbix_database }}

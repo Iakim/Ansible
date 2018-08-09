@@ -1,0 +1,86 @@
+---
+  - name: Copying file my.cnf
+    copy:
+      remote_dest: yes
+      src: /ets/ansible/roles/otrs_install/templates/my.cnf.j2
+      dest: /etc/my.cnf
+
+  - name: Stopping the Database
+    service: name=mariadb state=stopped
+
+  - name: Deleting logfile0 file
+    file:
+      path: /var/lib/mysql/lib_logfile0
+      state: absent
+
+  - name: Deleting logfile1 file
+    file:
+      path: /var/lib/mysql/lib_logfile1
+      state: absent
+
+  - name: Starting the database again
+    service: name=mariadb state=started
+
+  - name: Downloading OTRS
+    get_url:
+      url: https://ftp.otrs.org/pub/otrs/otrs{{ otrs_version }}.tar.bz2
+      dest: /opt
+
+  - name: Unlinking file
+    shell: tar -jxpf /opt/otrs-{{ otrs_version }}.tar.bz2 -C /opt/
+
+  - name: Renaming the OTRS folder
+    shell: mv /opt/otrs-{{ otrs_version }} /opt/otrs
+
+  - name: Creating OTRS User
+    user: name=otrs password={{ otrs_user_pass }} comment="OTRS User" group=apache
+
+  - name: Installing PERL packages
+    yum: state=latest name={{ item }}
+    with_items:
+    - "perl(ExtUtils::MakeMaker)"
+    - "perl(Sys::Syslog)"
+    - "perl(Archive::Tar)"
+    - "perl(Archive::Zip)"
+    - "perl(Crypt::Eksblowfish::Bcrypt)"
+    - "perl(Crypt::SSLeay)"
+    - "perl(Date::Format)"
+    - "perl(DBD::Pg)"
+    - "perl(Encode::HanExtra)"
+    - "perl(IO::Socket::SSL)"
+    - "perl(JSON::XS)"
+    - "perl(Mail::IMAPClient)"
+    - "perl(IO::Socket::SSL)"
+    - "perl(ModPerl::Util)"
+    - "perl(Net::DNS)"
+    - "perl(Net::LDAP)"
+    - "perl(Template)"
+    - "perl(Template::Stash::XS)"
+    - "perl(Text::CSV_XS)"
+    - "perl(Time::Piece)"
+    - "perl(XML::LibXML)"
+    - "perl(XML::LibXSLT)"
+    - "perl(XML::Parser)"
+    - "perl(YAML::XS)"
+    - "perl(DBD::ODBC)"
+    - "perl(DateTime)"
+    - "perl(LWP::UserAgent)"
+    - "perl(Authen::NTLM)"
+
+  - name: Copying file Config.pm
+    copy:
+      remote_src: yes
+      src: /opt/otrs/Kernel/Config.pm.dist
+      dest: /opt/otrs/Kernel/Config.pm
+
+  - name: Creating a somber link
+    shell: ln -s /opt/otrs/scripts/apache2-httpd.include.conf /etc/httpd/conf.d/zzz_otrs.conf
+
+  - name: Setting permissions "otrs.SetPermissions.pl"
+    shell: /opt/otrs/bin/otrs.SetPermissions.pl --web-group=apache
+
+  - name: Copying Daemon file
+    copy:
+      remote_src: yes
+      src: /opt/otrs/var/cron/otrs_daemon.dist
+      dest: /opt/otrs/var/cron/otrs_daemon
