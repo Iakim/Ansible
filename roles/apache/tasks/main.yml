@@ -1,6 +1,6 @@
 ---
-  - name: Instalando o Apache
+  - name: INstall the Apache
     yum: name=httpd state=latest
 
-  - name: Reinciando o Apache
-    service: name=httpd state=started
+  - name: Start the Apache
+    service: name=httpd state=started enabled=yes
