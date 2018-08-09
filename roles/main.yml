@@ -1,0 +1,24 @@
+---
+- hosts: OTRS
+  become: true
+  become_user: root
+  roles:
+
+  # Pre
+    - initpack
+    - firewall
+    - epel
+
+  # Combined
+    - apache
+    - mysql
+
+  # App
+    # Zabbix
+    - zabbix-server
+    - zabbix-agent
+
+    # Otrs
+    - otrs_install
+    - reboot
+    - otrs_start
