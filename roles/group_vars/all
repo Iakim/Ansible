@@ -12,5 +12,9 @@ zabbix_host: 127.0.0.1
 #zabbix_host: "{{ ansible_hostname }}"
 
 ##### OTRS #####
+<<<<<<< HEAD
 otrs_user_pass: $6$U4/52GhOOkdLbH31$fS5eKM.aiZnhMod4KGogFbqPCpsj2gxyeSNdWxQ3WyhmuFE15zZpzZCGxE//y2TzG0v1/6MxzrWt8k5fyfQ181
+=======
+otrs_user_pass: $6$U4/52GhOOkdLbH31$fS5eKM.aiZnhMod4KGogFbqPCpsj2gxyeSNdWxQ3WyhmuFE15zZpzACGxE//y2TzG0v1/6MxzrWt8k5fyfQ181
+>>>>>>> 4435c99f194c8a857b4f12da250ba49d76a7e825
 otrs_version: 6.0.10

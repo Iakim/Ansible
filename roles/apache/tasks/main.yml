@@ -1,6 +1,14 @@
 ---
+<<<<<<< HEAD
   - name: Instalando o Apache
     yum: name=httpd state=latest
+=======
+  - name: Apache Install
+    yum: state=latest name={{ item }}
+    with_items:
+    - httpd
+    - httpd-devel
+>>>>>>> 4435c99f194c8a857b4f12da250ba49d76a7e825
 
   - name: Reinciando o Apache
     service: name=httpd state=started
