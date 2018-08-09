@@ -1,8 +1,0 @@
----
-  - name: Installing Initial Packages
-    yum: state=latest name={{ item }}
-    with_items:
-    - wget
-    - bzip2
-    - mod_perl
-    

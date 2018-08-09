@@ -1,6 +1,0 @@
----
-  - name: Starting the Cron
-    shell: /opt/otrs/bin/Cron.sh start otrs
-
-  - name: Starting Daemon
-    shell: su -c "/opt/otrs/bin/otrs.Daemon.pl start" -s /bin/bash otrs
