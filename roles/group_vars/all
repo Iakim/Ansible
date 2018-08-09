@@ -1,8 +1,16 @@
-zabbix_version: 3.4.11
+##### ZABBIX SERVER #####
+zabbix_version: 3.0.19
 zabbix_user: zabbix
 zabbix_pass: z@bb1x
 zabbix_database: zabbix
 zabbix_cache_size: 256M
 zabbix_timezone: America/Sao_Paulo
-zabbix_server: zabbix.iakim.ru
-zabbix_host: "{{ ansible_hostname }}"
+zabbix_server: jacqueline.in.local
+zabbix_host: 127.0.0.1
+
+##### ZABBIX AGENT #####
+#zabbix_host: "{{ ansible_hostname }}"
+
+##### OTRS #####
+otrs_user_pass: $6$U4/52GhOOkdLbH31$fS5eKM.aiZnhMod4KGogFbqPCpsj2gxyeSNdWxQ3WyhmuFE15zZpzZCGxE//y2TzG0v1/6MxzrWt8k5fyfQ181
+otrs_version: 6.0.10
