@@ -1,11 +1,4 @@
-<<<<<<< HEAD
-[Zabbix-Server]
-localhost
-[OTRS]
-sinvh-104.in.local
-=======
 [Zabbix-Server]
 localhost
 [OTRS]
 localhost
->>>>>>> 4435c99f194c8a857b4f12da250ba49d76a7e825
