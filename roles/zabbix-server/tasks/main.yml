@@ -43,3 +43,6 @@
 
   - name: Creating Tables in the Database
     shell: zcat /usr/share/doc/zabbix-server-mysql-*/create.sql.gz | mysql -u{{ zabbix_user }} -p{{ zabbix_pass }} {{ zabbix_database }}
+    
+  - name: Restart the Apache
+    service: name=httpd state=restarted
