@@ -36,7 +36,7 @@
     service: name=zabbix-server state=started enabled=yes
 
   - name: Creating the Database
-    shell: echo "create database {{ zabbix_databse }} character set utf8;" | mysql -u root
+    shell: echo "create database {{ zabbix_database }} character set utf8;" | mysql -u root
 
   - name: Granting Access to the Database
     shell: echo "grant all privileges on {{ zabbix_database }}.* to '{{ zabbix_user }}'@'localhost' identified by '{{ zabbix_pass }}';" | mysql -u root
