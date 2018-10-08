@@ -1,0 +1,128 @@
+---
+  - name: Copy Elasticsearch Package
+    copy:
+      src: /etc/ansible/roles/elasticsearch/package/elasticsearch-1.4.0.noarch.rpm
+      dest: /opt/elasticsearch-1.4.0.noarch.rpm
+
+  - name: Installing Elasticsearch
+    yum:
+      name: "{{ elasticsearch_local }}"
+      state: present
+
+  - name: Configure Cluster Name
+    lineinfile:
+      path: /etc/elasticsearch/elasticsearch.yml
+      regexp: '^#cluster.name: elasticsearch'
+      line: 'cluster.name: {{ cluster_name }}'
+
+  - name: Configure Node Name
+    lineinfile:
+      path: /etc/elasticsearch/elasticsearch.yml
+      regexp: '^#node.name: "Franz Kafka"'
+      line: 'node.name: {{ node_name }}'
+
+  - name: Configure Node Master
+    lineinfile:
+      path: /etc/elasticsearch/elasticsearch.yml
+      regexp: '^#node.master: true'
+      line: 'node.master: true'
+
+  - name: Configure Node Data
+    lineinfile:
+      path: /etc/elasticsearch/elasticsearch.yml
+      regexp: '^#node.data: true'
+      line: 'node.data: true'
+
+  - name: Configure Number of Shards
+    lineinfile:
+      path: /etc/elasticsearch/elasticsearch.yml
+      regexp: '^#index.number_of_shards: 5'
+      line: 'index.number_of_shards: {{ shards }}'
+
+  - name: Configure Number of Replicas
+    lineinfile:
+      path: /etc/elasticsearch/elasticsearch.yml
+      regexp: '^#index.number_of_replicas: 1'
+      line: 'index.number_of_replicas: {{ replicas }}'
+
+  - name: Configure Path to data
+    lineinfile:
+      path: /etc/elasticsearch/elasticsearch.yml
+      regexp: '^#path.data: /path/to/data'
+      line: 'path.data: {{ path_data }}'
+
+  - name: Create Path to data
+    file:
+     path: "{{ path_data }}"
+     state: directory
+     owner: elasticsearch
+     group: elasticsearch
+
+  - name: Configure BootStrap
+    lineinfile:
+      path: /etc/elasticsearch/elasticsearch.yml
+      regexp: '^#bootstrap.mlockall: true'
+      line: 'bootstrap.mlockall: true'
+
+  - name: Adding Others Param 
+    lineinfile:
+      path: /etc/elasticsearch/elasticsearch.yml
+      line: 'action.destructive_requires_name: true'
+
+  - name: Adding Others Param
+    lineinfile:
+      path: /etc/elasticsearch/elasticsearch.yml
+      line: 'indices.fielddata.cache.size: 30%'
+
+  - name: Adding Others Param
+    lineinfile:
+      path: /etc/elasticsearch/elasticsearch.yml
+      line: 'indices.cache.filter.size: 30%'
+
+
+  - name: Configure NetworkBindHost
+    lineinfile:
+      path: /etc/elasticsearch/elasticsearch.yml
+      regexp: '^#network.bind_host: 192.168.0.1'
+      line: 'network.bind_host: {{ ip }}'
+
+  - name: Adding Others Param
+    lineinfile:
+      path: /etc/elasticsearch/elasticsearch.yml
+      line: 'http.compression: true'
+
+  - name: Configure Port
+    lineinfile:
+      path: /etc/elasticsearch/elasticsearch.yml
+      regexp: '^#http.port: 9200'
+      line: 'http.port: 9200'      
+
+  - name: Adding Others Param
+    lineinfile:
+      path: /etc/elasticsearch/elasticsearch.yml
+      line: 'http.cors.allow-origin: "*"'
+
+  - name: Adding Others Param
+    lineinfile:
+      path: /etc/elasticsearch/elasticsearch.yml
+      line: 'http.cors.enabled: true'
+
+  - name: Adding Others Param
+    lineinfile:
+      path: /etc/elasticsearch/elasticsearch.yml
+      line: 'script.disable_dynamic: true'
+
+  - name: Configure JVM
+    lineinfile:
+      path: /etc/sysconfig/elasticsearch
+      regexp: '^#ES_HEAP_SIZE=2g'
+      line: 'ES_HEAP_SIZE={{ heap_size }}'
+
+  - name: Configure JAVA_OPTS
+    lineinfile:
+      path: /etc/sysconfig/elasticsearch
+      regexp: '^#ES_JAVA_OPTS='
+      line: 'ES_JAVA_OPTS="-Xms{{ heap_size }} -Xmx{{ heap_size }}"'
+
+  - name: Enable Service
+    service: name=elasticsearch state=started enabled=yes
