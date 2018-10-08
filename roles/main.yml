@@ -1,24 +1,29 @@
 ---
-- hosts: OTRS
+- hosts: Elastic
   become: true
   become_user: root
   roles:
 
   # Pre
-    - initpack
-    - firewall
-    - epel
+    - repolist
+    #- initpack
+    #- firewall
+    #- epel
+    - java
 
   # Combined
-    - apache
-    - mysql
+    #- apache
+    #- mysql
 
   # App
     # Zabbix
-#    - zabbix-server
-#    - zabbix-agent
+    #- zabbix-server
+    #- zabbix-agent
 
     # Otrs
-    - otrs_install
-    - reboot
-    - otrs_start
+    #- otrs_install
+    #- reboot
+    #- otrs_start
+
+    # ElasticSearch + ElasticHQ
+    - elasticsearch

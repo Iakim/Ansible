@@ -5,13 +5,25 @@ zabbix_pass: z@bb1x
 zabbix_database: zabbix
 zabbix_cache_size: 256M
 zabbix_timezone: America/Sao_Paulo
-zabbix_server: localhost
+zabbix_server: jacqueline.in.local
 zabbix_host: 127.0.0.1
 
 ##### ZABBIX AGENT #####
 #zabbix_host: "{{ ansible_hostname }}"
-#zabbix_server: your_zabbix_server_hostname_or_IP
 
 ##### OTRS #####
 otrs_user_pass: $6$U4/52GhOOkdLbH31$fS5eKM.aiZnhMod4KGogFbqPCpsj2gxyeSNdWxQ3WyhmuFE15zZpzZCGxE//y2TzG0v1/6MxzrWt8k5fyfQ181
 otrs_version: 6.0.10
+
+##### ELASTICSEARCH #####
+elasticsearch_local: /opt/elasticsearch-1.4.0.noarch.rpm
+cluster_name: elastic_isaac
+node_name: "isaac"
+shards: 1
+replicas: 0
+path_data: /opt/elasticsearch/indice
+ip: "{{ ansible_eth0.ipv4.address }}"
+heap_size: 3g
+
+#### JAVA ####
+java_version_install: java-1.8.0-openjdk.x86_64
