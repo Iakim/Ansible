@@ -1,17 +1,18 @@
 ---
-- hosts: Elasticsearch
+- hosts: Elastic
   become: true
   become_user: root
   roles:
 
   # Pre
+    - repolist
     #- initpack
     #- firewall
     #- epel
     - java
 
   # Combined
-    - apache
+    #- apache
     #- mysql
 
   # App
@@ -26,4 +27,3 @@
 
     # ElasticSearch + ElasticHQ
     - elasticsearch
-    - elastichq
