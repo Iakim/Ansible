@@ -1,0 +1,13 @@
+---
+  - name: Copy ElasticHQ
+    copy:
+      src: /etc/ansible/roles/elastichq/templates/ElasticHQ
+      dest: /opt
+
+  - name: Copy httpd.conf
+    copy:
+      src: /etc/ansible/roles/elastichq/templates/httpd.conf
+      dest: /etc/httpd/conf
+
+  - name: Restart the Apache
+    service: name=httpd state=restarted
