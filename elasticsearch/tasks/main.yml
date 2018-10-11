@@ -124,5 +124,5 @@
       regexp: '^#ES_JAVA_OPTS='
       line: 'ES_JAVA_OPTS="-Xms{{ heap_size }} -Xmx{{ heap_size }}"'
 
-  - name: Enable Service
+  - name: Enable Elasticsearch Service
     service: name=elasticsearch state=started enabled=yes

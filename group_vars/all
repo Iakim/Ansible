@@ -17,12 +17,12 @@ otrs_version: 6.0.10
 
 ##### ELASTICSEARCH #####
 elasticsearch_local: /opt/elasticsearch-1.4.0.noarch.rpm
-cluster_name: elastic_isaac
-node_name: "isaac"
+cluster_name: elastic_ansible
+node_name: "localhost"
 shards: 1
 replicas: 0
 path_data: /opt/elasticsearch/indice
-ip: "{{ ansible_eth0.ipv4.address }}"
+ip: "{{ ansible_enp1s0f1.ipv4.address }}"
 heap_size: 3g
 
 #### JAVA ####
