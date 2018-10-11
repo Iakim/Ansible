@@ -5,7 +5,7 @@ zabbix_pass: z@bb1x
 zabbix_database: zabbix
 zabbix_cache_size: 256M
 zabbix_timezone: America/Sao_Paulo
-zabbix_server: jacqueline.in.local
+zabbix_server: server.zabbix.com
 zabbix_host: 127.0.0.1
 
 ##### ZABBIX AGENT #####
@@ -18,11 +18,11 @@ otrs_version: 6.0.10
 ##### ELASTICSEARCH #####
 elasticsearch_local: /opt/elasticsearch-1.4.0.noarch.rpm
 cluster_name: elastic_ansible
-node_name: "localhost"
+node_name: "elastic"
 shards: 1
 replicas: 0
 path_data: /opt/elasticsearch/indice
-ip: "{{ ansible_enp1s0f1.ipv4.address }}"
+ip: "{{ ansible_eth0.ipv4.address }}"
 heap_size: 3g
 
 #### JAVA ####
