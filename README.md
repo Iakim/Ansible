@@ -1,19 +1,16 @@
 # Ansible
-
-<img src=http://www.alertdriving.co.nz/uploads/1/4/8/0/14809288/708080514.jpg></img>
-
-### APACHE
-### ELASTICSEARCH
-### EPEL
-### FIREWALL
-### INITPACK
-### JAVA
-### MYSQL
-### ZABBIX-SERVER
-
-<img src=https://choosecrueltyfree.org.au/wp-content/uploads/2017/07/old-ccf-logo-full.jpg></img>
-
-### OTRS_START
-### OTRS_INSTALL
-### REBOOT
-### ZABBIX-AGENT
+- [x] Passed
+- [ ] Not Tested
+-------------------
+- [x] APACHE        
+- [x] ELASTICSEARCH 
+- [x] EPEL          
+- [x] FIREWALL      
+- [x] INITPACK     
+- [x] JAVA         
+- [x] MYSQL        
+- [ ] OTRS_INSTALL
+- [ ] OTRS_START
+- [ ] REBOOT
+- [ ] ZABBIX-AGENT
+- [x] ZABBIX-SERVER 
