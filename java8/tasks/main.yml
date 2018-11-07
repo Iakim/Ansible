@@ -1,0 +1,6 @@
+---
+  - name: Install Oracle Java 8
+    become: yes
+    dnf: name={{item}} state=latest
+    with_items:
+      - "{{ java_version8_install }}"

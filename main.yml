@@ -1,5 +1,5 @@
 ---
-- hosts: Elasticsearch
+- hosts: Jboss
   become: true
   become_user: root
   roles:
@@ -8,10 +8,11 @@
     #- initpack
     #- firewall
     #- epel
-    - java
+    #- java8
+    #- java7
 
   # Combined
-    - apache
+    #- apache
     #- mysql
 
   # App
@@ -25,5 +26,8 @@
     #- otrs_start
 
     # ElasticSearch + ElasticHQ
-    - elasticsearch
-    - elastichq
+    #- elasticsearch
+    #- elastichq
+
+    # Jboss + Liferay
+    - jboss

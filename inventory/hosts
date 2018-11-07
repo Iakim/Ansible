@@ -1,6 +1,10 @@
 [Zabbix-Server]
 localhost
+[Zabbix-Agent]
+localhost
 [OTRS]
 localhost
 [Elasticsearch]
+localhost
+[Jboss]
 localhost

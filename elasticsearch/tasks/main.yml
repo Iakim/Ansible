@@ -5,7 +5,7 @@
       dest: /opt/elasticsearch-1.4.0.noarch.rpm
 
   - name: Installing Elasticsearch
-    yum:
+    dnf:
       name: "{{ elasticsearch_local }}"
       state: present
 

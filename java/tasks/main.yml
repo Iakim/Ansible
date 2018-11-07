@@ -1,6 +1,0 @@
----
-  - name: Install Oracle Java 8
-    become: yes
-    yum: name={{item}} state=latest
-    with_items:
-      - "{{ java_version_install }}"

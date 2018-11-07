@@ -1,0 +1,145 @@
+---
+  - name: Create Liferay Home
+    file:
+      path: /opt/liferay
+      state: directory
+      recurse: yes
+
+  - name: Unzip Jboss
+    unarchive:
+      src: /etc/ansible/roles/jboss/template/jboss-eap-6.4.zip
+      dest: /opt/liferay
+
+  - name: Add Jboss User Admin
+    shell: "sh /opt/liferay/jboss-eap-6.4/bin/add-user.sh liferay pass@1234"
+
+  - name: Copy jboss.sh
+    copy:
+     src: /etc/ansible/roles/jboss/template/jboss.sh
+     dest: /etc/init.d/jboss
+     mode: 0755
+
+  - name: Create Service User
+    user:
+     name: liferay
+
+  - name: Configure Datasource - URL SQL Connection
+    lineinfile:
+      path: /opt/liferay/jboss-eap-6.4/standalone/configuration/standalone.xml
+      regexp: '^                    <connection-url>connection_sql_url_ansible_var</connection-url>'
+      line: '                    {{ connection_sql_url }}'
+
+  - name: Configure Datasource - URL Oracle Connection
+    lineinfile:
+      path: /opt/liferay/jboss-eap-6.4/standalone/configuration/standalone.xml
+      regexp: '^                    <connection-url>connection_oracle_url_ansible_var</connection-url>'
+      line: '                    {{ connection_oracle_url }}'
+
+  - name: Configure Datasource - User SQL Name
+    lineinfile:
+      path: /opt/liferay/jboss-eap-6.4/standalone/configuration/standalone.xml
+      regexp: '^                        <user-name>user_sql_name_ansible_var</user-name>'
+      line: '                        {{ user_sql_name }}'
+
+  - name: Configure Datasource - User SQL Password
+    lineinfile:
+      path: /opt/liferay/jboss-eap-6.4/standalone/configuration/standalone.xml
+      regexp: '^user_sql_passwd_ansible_var'
+      line: '                        {{ user_sql_passwd }}'
+
+  - name: Configure Datasource - User Oracle Name
+    lineinfile:
+      path: /opt/liferay/jboss-eap-6.4/standalone/configuration/standalone.xml
+      regexp: '^                        <user-name>user_oracle_name_ansible_var</user-name>'
+      line: '                        {{ user_oracle_name }}'
+
+  - name: Configure Datasource - User oracle Password
+    lineinfile:
+      path: /opt/liferay/jboss-eap-6.4/standalone/configuration/standalone.xml
+      regexp: '^user_oracle_passwd_ansible_var'
+      line: '                        {{ user_oracle_passwd }}'
+
+  - name: Configure JVM 1
+    lineinfile:
+      path: /opt/liferay/jboss-eap-6.4/bin/standalone.conf
+      regexp: '^jvm_conf_mem_ansible_var'
+      line: '        JAVA_OPTS="-server -Xmx{{ jvm_xmx }} -Xms{{ jvm_xms }} -XX:PermSize={{ jvm_perm }} -XX:MaxPermSize={{ jvm_maxperm }} -Djava.net.preferIPv4Stack=true -Dfile.encoding=UTF-8"'
+
+  - name: Configure JVM 2
+    lineinfile:
+      path: /opt/liferay/jboss-eap-6.4/bin/standalone.conf
+      regexp: '^jvm_timezone_ansible_var'
+      line: '        JAVA_OPTS="$JAVA_OPTS -Djava.awt.headless=true -XX:LargePageSizeInBytes=2048k -XX:+UseLargePages -XX:+UseCompressedOops -Duser.timezone={{ jvm_timezone }}"'
+
+  - name: Configure JVM 3
+    lineinfile:
+      path: /opt/liferay/jboss-eap-6.4/bin/standalone.conf
+      regexp: '^jvm_tcpping_initial_ansible_var'
+      line: '        JAVA_OPTS="$JAVA_OPTS -Djgroups.bind_addr={{ jvm_bind_addr }} -Djgroups.tcpping.initial_hosts={{ jvm_tcpping_initial }}"'
+
+  - name: Add portal-ext.properties
+    copy: 
+      src: /etc/ansible/roles/jboss/template/portal-ext.properties
+      dest: /opt/liferay
+
+  - name: Configure portal-ext.properties
+    lineinfile:
+      path: /opt/liferay/portal-ext.properties
+      regexp: '^dl.store.file.system.root.dir=document_library_ansible_var'
+      line: 'dl.store.file.system.root.dir={{ liferay_path_document_library }}'
+
+  - name: Create Directory for Document Library
+    file:
+      path: "{{ liferay_path_document_library }}"
+      state: directory
+      recurse: yes
+
+  - name: Configure portal-ext.properties
+    lineinfile:
+      path: /opt/liferay/portal-ext.properties
+      regexp: '^jdbc.default.jndi.name=liferay_datasource_ansible_var'
+      line: 'jdbc.default.jndi.name={{ liferay_datasource }}'
+
+  - name: Configure portal-ext.properties
+    lineinfile:
+      path: /opt/liferay/portal-ext.properties
+      regexp: '^cluster.link.enabled=liferay_cluster_ansible_var'
+      line: 'cluster.link.enabled={{ liferay_cluster }}'
+
+  - name: Configure portal-ext.properties
+    lineinfile:
+      path: /opt/liferay/portal-ext.properties
+      regexp: '^cluster.link.autodetect.address=liferay_cluster_link_ansible_var'
+      line: 'cluster.link.autodetect.address={{ liferay_cluster_link }}'
+
+  - name: Configure portal-ext.properties
+    lineinfile:
+      path: /opt/liferay/portal-ext.properties
+      regexp: '^redirect.url.ips.allowed=liferay_ips_allowed_ansible_var'
+      line: 'redirect.url.ips.allowed={{ liferay_ips_allowed }}'
+
+  - name: Unzip Unicast
+    unarchive:
+      src: /etc/ansible/roles/jboss/template/unicast.zip
+      dest: /opt/liferay
+
+  - name: Unzip Ehcache
+    unarchive:
+      src: /etc/ansible/roles/jboss/template/ehcache.zip
+      dest: /opt/liferay
+
+  - name: Configure Unicast - tcp.xml
+    lineinfile:
+      path: /opt/liferay/unicast/tcp.xml
+      regexp: '^liferay_unicast_tcp_xml_ansible_var'
+      line: '             initial_hosts="${jgroups.tcpping.initial_hosts:{{ liferay_unicast_tcp_xml }}}"'
+
+  - name: Change Permissions
+    file:
+      path: /opt/liferay
+      owner: liferay
+      group: liferay
+      recurse: yes
+
+  - name: Reload Daemon for init.d
+    shell: systemctl daemon-reload

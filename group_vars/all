@@ -26,4 +26,36 @@ ip: "{{ ansible_enp1s0f1.ipv4.address }}"
 heap_size: 3g
 
 #### JAVA ####
-java_version_install: java-1.8.0-openjdk.x86_64
+java_version8_install: java-1.8.0-openjdk.x86_64
+java_version7_install: java-1.7.0-openjdk.x86_64
+
+#### JBOSS + Liferay ####
+# SQL Server
+connection_sql_url: <connection-url>jdbc:jtds:sqlserver://127.0.0.1/lportal</connection-url>
+user_sql_name: <user-name>liferaysql</user-name>
+user_sql_passwd: <password>liferaysql</password>
+
+# Oracle
+connection_oracle_url: <connection-url>jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(protocol=tcp)(host=127.0.0.1)(port=1521)))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=lportal)))</connection-url>
+#connection_oracle_url: <connection-url>jdbc:oracle:thin:@127.0.0.1:1521:lportal</connection-url>
+user_oracle_name: <user-name>liferayora</user-name>
+user_oracle_passwd: <password>liferayora</password>
+
+## Jboss
+jvm_xms: 5g
+jvm_xmx: 5g
+jvm_perm: 256M
+jvm_maxperm: 256M
+jvm_timezone: America/Sao_Paulo
+jvm_bind_addr: "{{ ansible_eth0.ipv4.address }}"
+jvm_tcpping_initial: "127.0.0.1[7800]"
+
+## Liferay
+liferay_datasource: jboss/liferaySQL
+#liferay_datasource: jboss/liferayOracle
+liferay_path_document_library: /mnt/nfs/liferay/document_library
+liferay_cluster: "false"
+liferay_cluster_link: 127.0.0.1:8080
+## For Ips Allowed use all ips for apache, nginx...
+liferay_ips_allowed: 127.0.0.1,SERVER_IP
+liferay_unicast_tcp_xml: "127.0.0.1[7800], 127.0.0.2[7800]"
