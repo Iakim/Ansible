@@ -2,12 +2,15 @@
 - [x] Passed
 - [ ] Not Tested
 -------------------
-- [x] APACHE        
+- [x] APACHE
+- [x] ELASTICHQ
 - [x] ELASTICSEARCH 
 - [x] EPEL          
 - [x] FIREWALL      
 - [x] INITPACK     
-- [x] JAVA         
+- [x] JAVA7         
+- [x] JAVA8
+- [x] JBOSS
 - [x] MYSQL        
 - [ ] OTRS_INSTALL
 - [ ] OTRS_START
